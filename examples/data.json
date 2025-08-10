@@ -1,0 +1,117 @@
+{
+  "verse": {
+    "id": 2,
+    "verse_number": 2,
+    "verse_key": "1:2",
+    "hizb_number": 1,
+    "rub_el_hizb_number": 1,
+    "ruku_number": 1,
+    "manzil_number": 1,
+    "sajdah_number": null,
+    "text_uthmani": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+    "chapter_id": 1,
+    "page_number": 1,
+    "juz_number": 1,
+    "words": [
+      {
+        "id": 1130,
+        "position": 1,
+        "audio_url": "wbw/001_002_001.mp3",
+        "char_type_name": "word",
+        "text_uthmani": "ٱلْحَمْدُ",
+        "page_number": 1,
+        "line_number": 3,
+        "text": "ٱلْحَمْدُ",
+        "translation": {
+          "text": "All praises and thanks",
+          "language_name": "english"
+        },
+        "transliteration": {
+          "text": "al-ḥamdu",
+          "language_name": "english"
+        }
+      },
+      {
+        "id": 1131,
+        "position": 2,
+        "audio_url": "wbw/001_002_002.mp3",
+        "char_type_name": "word",
+        "text_uthmani": "لِلَّهِ",
+        "page_number": 1,
+        "line_number": 3,
+        "text": "لِلَّهِ",
+        "translation": {
+          "text": "(be) to Allah",
+          "language_name": "english"
+        },
+        "transliteration": {
+          "text": "lillahi",
+          "language_name": "english"
+        }
+      },
+      {
+        "id": 1132,
+        "position": 3,
+        "audio_url": "wbw/001_002_003.mp3",
+        "char_type_name": "word",
+        "text_uthmani": "رَبِّ",
+        "page_number": 1,
+        "line_number": 3,
+        "text": "رَبِّ",
+        "translation": {
+          "text": "the Lord",
+          "language_name": "english"
+        },
+        "transliteration": {
+          "text": "rabbi",
+          "language_name": "english"
+        }
+      },
+      {
+        "id": 1133,
+        "position": 4,
+        "audio_url": "wbw/001_002_004.mp3",
+        "char_type_name": "word",
+        "text_uthmani": "ٱلْعَـٰلَمِينَ",
+        "page_number": 1,
+        "line_number": 3,
+        "text": "ٱلْعَـٰلَمِينَ",
+        "translation": {
+          "text": "of the universe",
+          "language_name": "english"
+        },
+        "transliteration": {
+          "text": "l-ʿālamīna",
+          "language_name": "english"
+        }
+      },
+      {
+        "id": 1134,
+        "position": 5,
+        "audio_url": null,
+        "char_type_name": "end",
+        "text_uthmani": "٢",
+        "page_number": 1,
+        "line_number": 3,
+        "text": "٢",
+        "translation": {
+          "text": "(2)",
+          "language_name": "english"
+        },
+        "transliteration": {
+          "text": null,
+          "language_name": "english"
+        }
+      }
+    ],
+    "audio": {
+      "url": "Alafasy/mp3/001002.mp3",
+      "segments": [
+        [0, 1, 80, 960],
+        [1, 2, 970, 1800],
+        [2, 3, 1810, 2460],
+        [3, 4, 2470, 5140]
+      ]
+    }
+  }
+}
