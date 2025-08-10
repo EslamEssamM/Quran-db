@@ -8,7 +8,7 @@ The repo ships with helper scripts and seed metadata to assemble a single `quran
 
 - Text and metadata sourced from: QUL, Corbus, Quran.com (<https://quran.com/>), Tanzil (<https://tanzil.net/>)
 - Audio base used by scripts: <https://verses.quran.foundation/>
-- Collected and consolidated by: Eslam Essam
+- Collected and consolidated by: *Eslam Essam Mohamed*
 - Usage: Free to use or distribute — لا تنسونا من صالح دعائكم
 
 ## Highlights
