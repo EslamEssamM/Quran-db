@@ -109,6 +109,28 @@ python update_pages_for_juz_hezb.py
 
 This fills `page_number` in `Juzs` and `Hezbs` using the minimum page for each grouping.
 
+1. Populate Surah page and line numbers (based on the first ayah of each surah):
+
+```cmd
+python update_suras_page_line.py
+```
+
+This adds/updates `Suras.page_number` and `Suras.line_number`.
+
+## Packaging and compression
+
+To compact the database and produce a compressed ZIP for sharing/releases:
+
+```cmd
+python compress_db.py
+```
+
+This will:
+
+- Run PRAGMA wal_checkpoint + optimize
+- Create an optimized copy via `VACUUM INTO` when supported (fallback to in-place VACUUM)
+- Create `quran_arabic.db.zip` at maximum compression
+
 ## Database schema (summary)
 
 Core tables created/used by the scripts:

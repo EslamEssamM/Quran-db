@@ -91,7 +91,6 @@ def recreate_ayats_words(conn: sqlite3.Connection) -> None:
         page_id INTEGER NOT NULL,
         sajdah_number INTEGER,
         audio_url TEXT,
-        audio_segments TEXT,
         FOREIGN KEY (sura_id) REFERENCES Suras(sura_id),
         FOREIGN KEY (juz_id) REFERENCES Juzs(juz_id),
         FOREIGN KEY (hezb_id) REFERENCES Hezbs(hezb_id),
@@ -148,13 +147,8 @@ def fetch_verse(sura_id: int, ayah_number: int):
     verse = resp.json()['verse']
     # Normalize payload to our schema
     audio_url = None
-    audio_segments = None
     if verse.get('audio'):
         audio_url = combine_url(verse['audio'].get('url'))
-        # store segments JSON
-        segs = verse['audio'].get('segments')
-        if segs is not None:
-            audio_segments = json.dumps(segs, ensure_ascii=False)
 
     words = []
     for w in verse.get('words', []):
@@ -175,8 +169,7 @@ def fetch_verse(sura_id: int, ayah_number: int):
         'hezb_id': verse.get('hizb_number') or verse.get('rub_el_hizb_number'),
         'page_id': verse.get('page_number'),
         'sajdah_number': verse.get('sajdah_number'),
-        'audio_url': audio_url,
-        'audio_segments': audio_segments,
+    'audio_url': audio_url,
         'words': words,
     }
     return (sura_id, ayah_number), payload
@@ -270,8 +263,8 @@ def main() -> None:
                 continue
             cur.execute('''
                 INSERT INTO Ayats (
-                    ayat_id, sura_id, ayat_number, text_uthmani, juz_id, hezb_id, page_id, sajdah_number, audio_url, audio_segments
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ayat_id, sura_id, ayat_number, text_uthmani, juz_id, hezb_id, page_id, sajdah_number, audio_url
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 ayat_id,
                 payload['sura_id'],
@@ -282,7 +275,6 @@ def main() -> None:
                 payload['page_id'],
                 payload['sajdah_number'],
                 payload['audio_url'],
-                payload['audio_segments'],
             ))
             for w in payload['words']:
                 cur.execute('''

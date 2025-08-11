@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 TARGET_DB = 'quran_arabic.db'
 SOURCE_DB = 'uthmani-15-lines.db'
@@ -44,13 +44,14 @@ def load_source_rows(src_conn: sqlite3.Connection) -> List[Tuple[int, int, str, 
     return cur.fetchall()
 
 
-def get_valid_ids(conn: sqlite3.Connection) -> Tuple[set, set]:
+def get_page_map_and_valid_suras(conn: sqlite3.Connection) -> Tuple[Dict[int, int], set]:
+    """Return mapping of page_number -> page_id and set of valid sura_ids."""
     cur = conn.cursor()
-    cur.execute('SELECT page_id FROM Pages')
-    valid_pages = {row[0] for row in cur.fetchall()}
+    cur.execute('SELECT page_id, page_number FROM Pages')
+    page_map = {row[1]: row[0] for row in cur.fetchall()}
     cur.execute('SELECT sura_id FROM Suras')
     valid_suras = {row[0] for row in cur.fetchall()}
-    return valid_pages, valid_suras
+    return page_map, valid_suras
 
 
 def import_lines() -> None:
@@ -74,15 +75,19 @@ def import_lines() -> None:
     rows = load_source_rows(src)
     print(f"Loaded {len(rows)} lines from source")
 
-    valid_pages, valid_suras = get_valid_ids(tgt)
-    missing_fk = 0
+    page_map, valid_suras = get_page_map_and_valid_suras(tgt)
+    missing_page = 0
+    missing_sura = 0
 
     to_insert = []
     for page_number, line_number, line_type, is_centered, first_word_id, last_word_id, surah_number in rows:
-        page_id = page_number
+        page_id = page_map.get(page_number)
         sura_id = surah_number
-        if page_id not in valid_pages:
-            missing_fk += 1
+        if page_id is None:
+            missing_page += 1
+            continue
+        if sura_id not in valid_suras:
+            missing_sura += 1
             continue
         to_insert.append((
             page_id,
@@ -98,7 +103,7 @@ def import_lines() -> None:
     cur.executemany('''INSERT OR IGNORE INTO Lines (page_id, line_number, line_type, is_centered, first_word_id, last_word_id, sura_id) VALUES (?, ?, ?, ?, ?, ?, ?)''', to_insert)
     tgt.commit()
 
-    print(f"Inserted {cur.rowcount if hasattr(cur, 'rowcount') else len(to_insert)} lines (attempted). Skipped {missing_fk} due to missing FKs.")
+    print(f"Inserted {cur.rowcount if hasattr(cur, 'rowcount') else len(to_insert)} lines (attempted). Skipped {missing_page} due to missing pages and {missing_sura} due to missing suras.")
 
     # Show totals
     cur.execute('SELECT COUNT(*) FROM Lines')
